@@ -32,6 +32,8 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ErrorDetails>(err,HttpStatus.BAD_REQUEST);
 	}
 	
+	
+	
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public ResponseEntity<ErrorDetails> NohandlerExceptionHandler(NoHandlerFoundException ex ,WebRequest wr){
 	
@@ -52,6 +54,15 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ErrorDetails>(err,HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorDetails> AnyExceptionHandler(Exception ex ,WebRequest wr){
+	
+		ErrorDetails err=new ErrorDetails();
+		err.setMessage(ex.getMessage());
+		err.setDetails(wr.getDescription(false));
+		
+		return new ResponseEntity<ErrorDetails>(err,HttpStatus.BAD_REQUEST);
+	}
 	
 	
 }

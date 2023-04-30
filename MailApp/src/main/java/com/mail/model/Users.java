@@ -54,7 +54,7 @@ public class Users{
 	@Column(name = "password",length = 1000,nullable = false)
 	private String password;
 	
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "fromUser")
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "fromUser")
 	@JsonIgnore
 	private List<MessageDetails> message=new ArrayList<>();
 }

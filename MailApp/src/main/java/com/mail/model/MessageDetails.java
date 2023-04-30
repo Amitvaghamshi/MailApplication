@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.boot.context.properties.bind.DefaultValue;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -50,6 +53,14 @@ public class MessageDetails{
 	
 	@JsonProperty(access = Access.READ_ONLY)
 	private final LocalDateTime timeStamp=LocalDateTime.now();
+	
+	@JsonIgnore
+	@Column(columnDefinition = " varchar(3) default 'NO' ")
+	private String isDelByRecipient="NO";
+	
+	@JsonIgnore
+	@Column(columnDefinition = " varchar(3) default 'NO' ")
+	private String isDelBySender="NO";
 	
 	@ManyToOne
 	@JoinColumn(name = "from_User",nullable = false)

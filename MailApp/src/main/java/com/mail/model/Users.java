@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -51,6 +53,7 @@ public class Users{
 	@Column(name = "user_name",unique = true,nullable = false)
 	private String userName;
 	
+	@JsonProperty(access = Access.WRITE_ONLY)
 	@Column(name = "password",length = 1000,nullable = false)
 	private String password;
 	

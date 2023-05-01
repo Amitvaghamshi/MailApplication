@@ -1,5 +1,7 @@
 package com.mail.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,9 @@ public class UsersController {
 	
 	@Autowired
 	private PasswordEncoder encoder;
+	
+	Logger logger = LoggerFactory.getLogger(UsersController.class);
+
 	 
 	
 	   @PostMapping("/users")
@@ -31,7 +36,7 @@ public class UsersController {
 		       user.setPassword(encoder.encode(user.getPassword()));
 		       user.setUserName(user.getUserName()+"@amail.com");
 		       Users us=userService.saveUser(user);
-		       
+		       logger.info(user.getUserName()+" has ragisterd to Account");
 		       return new ResponseEntity<>(us,HttpStatus.CREATED);
 	   }
 	   
@@ -39,7 +44,7 @@ public class UsersController {
 	   @GetMapping("/signIn")
 		public ResponseEntity<Users> getLoggedInUserDetailsHandler(Authentication auth) throws UsersExceptions{
 		     Users user=userService.findByuserName(auth.getName());
-			
+		     logger.info(auth.getName()+" has signIn");
 			 return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
 			 
 		}

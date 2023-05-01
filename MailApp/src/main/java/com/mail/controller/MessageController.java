@@ -31,17 +31,19 @@ public class MessageController {
 	@Autowired
 	private MessageDetailsService messageService;
 	
-//	Logger logger = LoggerFactory.getLogger(MessageController.class);
+	Logger logger = LoggerFactory.getLogger(MessageController.class);
 	
 	@PostMapping("/send")
 	public ResponseEntity<MessageDetails> sendMessage(@RequestParam("from") String from ,@RequestParam("to") String to,@RequestBody MessageDetails mail) throws UsersExceptions{
 		  MessageDetails msg=messageService.SendMailtoUsers(from, to, mail);
+		  logger.info(from+" has send mail to "+to);
 		  return new ResponseEntity<MessageDetails>(msg,HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/star/{id}")
 	public ResponseEntity<MessageDetails> starMailHandler(@NotNull @PathVariable("id") Integer mailId) throws  MessageDetailsException{
 		  MessageDetails msg=messageService.starMail(mailId);
+		  logger.info(mailId+" has star mail");
 		  return new ResponseEntity<MessageDetails>(msg,HttpStatus.ACCEPTED);
 	}
 	
@@ -49,12 +51,14 @@ public class MessageController {
 	@PutMapping("/unstar/{id}")
 	public ResponseEntity<MessageDetails> UnStarMailHandler(@NotNull @PathVariable("id") Integer mailId) throws  MessageDetailsException{
 		  MessageDetails msg=messageService.unStarMail(mailId);
+		  logger.info(mailId+" has Unstar mail");
 		  return new ResponseEntity<MessageDetails>(msg,HttpStatus.ACCEPTED);
 	}
 	
 	@PutMapping("/read/{id}")
 	public ResponseEntity<MessageDetails> markAsReadHandler(@NotNull @PathVariable("id") Integer mailId) throws  MessageDetailsException{
 		  MessageDetails msg=messageService.markAsRead(mailId);
+          logger.info(mailId+" has Just read the mail");
 		  return new ResponseEntity<MessageDetails>(msg,HttpStatus.ACCEPTED);
 	}
 	
@@ -62,18 +66,21 @@ public class MessageController {
 	@PutMapping("/unread/{id}")
 	public ResponseEntity<MessageDetails> markAsUnReadHandler(@NotNull @PathVariable("id") Integer mailId) throws  MessageDetailsException{
 		  MessageDetails msg=messageService.markAsUnread(mailId);
+		  logger.info(mailId+" has Just Unread the mail");
 		  return new ResponseEntity<MessageDetails>(msg,HttpStatus.ACCEPTED);
 	}
 	
 	@DeleteMapping("/delete/recipient/{id}")
 	public ResponseEntity<MessageDetails> DeleteRecipientsMailHandler(@NotNull @PathVariable("id") Integer mailId) throws  MessageDetailsException{
 		  MessageDetails msg=messageService.deleteRecipientsMail(mailId);
+		  logger.info(mailId+" has Just Delete  the mail from Inbox");
 		  return new ResponseEntity<MessageDetails>(msg,HttpStatus.ACCEPTED);
 	}
 	
 	@DeleteMapping("/delete/sender/{id}")
 	public ResponseEntity<MessageDetails> DeleteSendersMailHandler(@NotNull @PathVariable("id") Integer mailId) throws  MessageDetailsException{
 		  MessageDetails msg=messageService.deleteSendersMail(mailId);
+		  logger.info(mailId+" has Just delete the mail from sent box");
 		  return new ResponseEntity<MessageDetails>(msg,HttpStatus.ACCEPTED);
 	}
 	
@@ -112,9 +119,7 @@ public class MessageController {
 	@GetMapping("/count/{to}")
 	public ResponseEntity<Integer> getCountOfInboxMailHandler(@PathVariable("to") String to) throws  MessageDetailsException{
 		Integer  count=messageService.getCountOfMailInInbox(to);
-		
-	
-		//logger.info("to has"+count+" in inbox");
+		logger.info(to+" has "+count+" mail in inbox");
 		
 		return new ResponseEntity<>(count,HttpStatus.OK);
 	}

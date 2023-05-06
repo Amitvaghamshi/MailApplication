@@ -22,4 +22,6 @@ public interface MessageDetailsService {
 			throws MessageDetailsException;
 	 public List<MessageDetails> getReceivedMailListBySenderName(String to, String SenderName) throws MessageDetailsException;
 	 public Integer getCountOfMailInInbox(String to) throws MessageDetailsException;
+	MessageDetails getMessageById(Integer id) throws MessageDetailsException;
+	List<MessageDetails> getStaredMessage(String reciver) throws MessageDetailsException;
 }

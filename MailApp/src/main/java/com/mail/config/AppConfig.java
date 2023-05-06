@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -20,9 +21,11 @@ import jakarta.servlet.http.HttpServletRequest;
 @Configuration
 public class AppConfig {
 	
+	
 	@Bean
 	public SecurityFilterChain springSecurityConfiguration(HttpSecurity http) throws Exception {
 
+		
 		http
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()
@@ -35,23 +38,20 @@ public class AppConfig {
 				CorsConfiguration cfg = new CorsConfiguration();
 				
 				cfg.setAllowedOrigins(Collections.singletonList("*"));
-				//cfg.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:4500"));
-				//cfg.setAllowedMethods(Arrays.asList("GET", "POST","DELETE","PUT"));
+			//	cfg.setAllowedOrigins(Arrays.asList("http://localhost:8080/", "https://scintillating-wren-production.up.railway.app"));
+			//	cfg.setAllowedMethods(Arrays.asList("GET", "POST","DELETE","PUT"));
 				cfg.setAllowedMethods(Collections.singletonList("*"));
-				cfg.setAllowCredentials(true);
+			//	cfg.setAllowCredentials(true);
 				cfg.setAllowedHeaders(Collections.singletonList("*"));
 				cfg.setExposedHeaders(Arrays.asList("Authorization"));
 				cfg.setMaxAge(3600L);
-				return cfg;
-					
+				return cfg;	
 			}
 		})
 		.and()
 		.authorizeHttpRequests()
 		.requestMatchers(HttpMethod.POST, "/mail/users")
 		.permitAll()
-//		.requestMatchers(HttpMethod.GET,"/employee").hasRole("ADMIN")
-//		.requestMatchers(HttpMethod.GET,"/employee/**").hasAnyRole("ADMIN","USER")
 		.anyRequest()
 		.authenticated()
 		.and()

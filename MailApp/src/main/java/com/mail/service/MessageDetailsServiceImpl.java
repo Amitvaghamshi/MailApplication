@@ -307,6 +307,44 @@ public class MessageDetailsServiceImpl implements MessageDetailsService{
 	}
 	 
 	 
+	 @Override
+	 public MessageDetails getMessageById(Integer id) throws MessageDetailsException {
+		 
+//		  Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		  String senderEmail = authentication.getName();
+//		  System.out.println(senderEmail);
+		     		  
+		  MessageDetails details=messageRepo.findById(id).orElseThrow(()->new MessageDetailsException("No mail found with this id"));
+		  
+//		     if(!senderEmail.equals(details.getToUser().getUserName())){
+//		    	 throw new MessageDetailsException("you can get others mail");
+//		     }
+		 
+		 return details;
+				 
+	 }
+	 
+	 
+	 @Override
+	 public List<MessageDetails> getStaredMessage(String  reciver)throws MessageDetailsException {
+		 
+		  Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		  String senderEmail = authentication.getName();
+		  System.out.println(senderEmail);
+		     		  
+		  
+		     if(!senderEmail.equals(reciver)){
+		    	 throw new MessageDetailsException("you can get others mail");
+		     }
+		     
+		     List<MessageDetails> started=messageRepo.findStaredMailsByUser(senderEmail);
+		 
+		    return started;
+				 
+	 }
+	 
+	 
+	 
 	
 
 }

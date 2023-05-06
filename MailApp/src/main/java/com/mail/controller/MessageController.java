@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -116,13 +117,31 @@ public class MessageController {
 		return new ResponseEntity<>(msg,HttpStatus.OK);
 	}
 	
-	@GetMapping("/count/{to}")
+	@GetMapping("/received/count/{to}")
 	public ResponseEntity<Integer> getCountOfInboxMailHandler(@PathVariable("to") String to) throws  MessageDetailsException{
 		Integer  count=messageService.getCountOfMailInInbox(to);
 		logger.info(to+" has "+count+" mail in inbox");
 		
 		return new ResponseEntity<>(count,HttpStatus.OK);
 	}
+	
+	
+	@GetMapping("/message/{id}")
+	public ResponseEntity<MessageDetails> getMessageByIdHandler(@PathVariable("id") Integer id) throws  MessageDetailsException{
+		MessageDetails md= messageService.getMessageById(id);
+		
+		return new ResponseEntity<>(md,HttpStatus.OK);
+	}
+	
+	
+	
+	@GetMapping("/stared/{id}")
+	public ResponseEntity<List<MessageDetails>> getStaredMailsHandler(@PathVariable("id") String  to)throws  MessageDetailsException{
+		List<MessageDetails> msg= messageService.getStaredMessage(to);
+		
+		return new ResponseEntity<>(msg,HttpStatus.OK);
+	}
+
 
 
 	

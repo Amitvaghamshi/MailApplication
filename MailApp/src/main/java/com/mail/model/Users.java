@@ -45,7 +45,7 @@ public class Users{
 	private String lastName;
 	
 	@NotNull
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "dob",nullable = false)
 	private LocalDate dob;
 	

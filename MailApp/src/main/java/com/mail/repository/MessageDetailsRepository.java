@@ -12,7 +12,7 @@ import com.mail.model.MessageDetails;
 @Repository
 public interface MessageDetailsRepository extends JpaRepository<MessageDetails, Integer>{
 	
-	@Query("from MessageDetails where fromUser.userName =:fm and isDelBySender='NO' ")
+	@Query("from MessageDetails where fromUser.userName =:fm and isDelBySender='NO' order by timeStamp desc ")
 	public List<MessageDetails> findSendedMail(@Param("fm") String from);
 	
 	@Query("from MessageDetails where toUser.userName =:fm and isDelByRecipient='NO' ")
@@ -23,4 +23,7 @@ public interface MessageDetailsRepository extends JpaRepository<MessageDetails, 
 	
 	@Query("select count(*) from MessageDetails  where toUser.userName =:fm and isDelByRecipient='NO' ")
 	public Integer findCountOfReceivedMail(@Param("fm") String to);
+	
+	@Query("from MessageDetails where toUser.userName =:fm and isDelByRecipient='NO' and isStar='YES'  ")
+	public List<MessageDetails> findStaredMailsByUser(@Param("fm") String to);
 }

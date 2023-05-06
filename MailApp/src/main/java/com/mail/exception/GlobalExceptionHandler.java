@@ -2,6 +2,7 @@ package com.mail.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -13,6 +14,16 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(UsersExceptions.class)
 	public ResponseEntity<ErrorDetails> UsersExceptionHandler(UsersExceptions ex ,WebRequest wr){
+	
+		ErrorDetails err=new ErrorDetails();
+		err.setMessage(ex.getMessage());
+		err.setDetails(wr.getDescription(false));
+		
+		return new ResponseEntity<ErrorDetails>(err,HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<ErrorDetails> BadCredentialsExceptionHandler(BadCredentialsException ex ,WebRequest wr){
 	
 		ErrorDetails err=new ErrorDetails();
 		err.setMessage(ex.getMessage());
@@ -63,6 +74,8 @@ public class GlobalExceptionHandler {
 		
 		return new ResponseEntity<ErrorDetails>(err,HttpStatus.BAD_REQUEST);
 	}
+	
+	
 	
 	
 }

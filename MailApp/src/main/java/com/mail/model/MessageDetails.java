@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -45,13 +46,14 @@ public class MessageDetails{
 	
 	@JsonProperty(access = Access.READ_ONLY)
 	@Column(length = 3)
-	private String isViewed="No";
+	private String isViewed="NO";
 	
 	@JsonProperty(access = Access.READ_ONLY)
 	@Column(length = 3)
-	private String isStar="No";
+	private String isStar="NO";
 	
 	@JsonProperty(access = Access.READ_ONLY)
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private final LocalDateTime timeStamp=LocalDateTime.now();
 	
 	@JsonIgnore
